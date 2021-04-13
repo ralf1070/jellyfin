@@ -2028,7 +2028,7 @@ namespace Jellyfin.Api.Controllers
                 return NoContent();
             }
 
-            return PhysicalFile(imagePath, imageContentType);
+            return PhysicalFile(imagePath, imageContentType ?? MediaTypeNames.Text.Plain);
         }
     }
 }
