@@ -3662,11 +3662,17 @@ namespace MediaBrowser.Controller.MediaEncoding
             var format = string.Empty;
             var keyFrame = string.Empty;
 
-            if (string.Equals(Path.GetExtension(outputPath), ".mp4", StringComparison.OrdinalIgnoreCase)
+            var extension = Path.GetExtension(outputPath);
+            if (string.Equals(extension, ".mp4", StringComparison.OrdinalIgnoreCase)
                 && state.BaseRequest.Context == EncodingContext.Streaming)
             {
                 // Comparison: https://github.com/jansmolders86/mediacenterjs/blob/master/lib/transcoding/desktop.js
                 format = " -f mp4 -movflags frag_keyframe+empty_moov";
+            } else if (string.Equals(extension, ".mpegts", StringComparison.OrdinalIgnoreCase)
+                && state.BaseRequest.Context == EncodingContext.Streaming)
+            {
+                // Comparison: https://github.com/jansmolders86/mediacenterjs/blob/master/lib/transcoding/desktop.js
+                format = " -f mpegts";
             }
 
             var threads = GetNumberOfThreads(state, encodingOptions, videoCodec);
